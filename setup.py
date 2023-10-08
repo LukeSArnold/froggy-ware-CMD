@@ -1,7 +1,7 @@
 import subprocess
 import sys
 
-packages = [ "dearpygui", "spotipy", "pytube"]
+packages = [ "dearpygui", "spotipy", "pytube", "youtube-search-python"]
 
 
 
