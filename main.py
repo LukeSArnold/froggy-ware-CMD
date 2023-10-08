@@ -1,10 +1,11 @@
 import dearpygui.dearpygui as dpg
-from spotify_engine import SpotifyEngine
-from youtube_engine import YoutubeEngine
+from engine.spotify_engine import SpotifyEngine
+from engine.youtube_engine import YoutubeEngine
 import threading
 import time
 import os
 import sys
+import random
 
 def callback(sender, app_data):
 	print('OK was clicked.')
@@ -30,7 +31,12 @@ def convert(sender, app_data):
 	youtube_engine = YoutubeEngine()
 
 	directory = dpg.get_value(folder)
-	os.mkdir(directory)
+
+	if os.path.exists(directory):
+		directory = directory + (str(time.asctime())).replace(" ","_")
+		os.mkdir(directory)
+	else:
+		os.mkdir(directory)
 
 	dpg.set_value(status_string, "...GETTING SPOTIFY SONGS")
 	songs = engine.get_playlists()
