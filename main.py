@@ -22,6 +22,9 @@ def reset(sender, app_data):
 	dpg.set_value(folder, desktop_path+ "/MyPlaylist")
 
 def convert(sender, app_data):
+
+	dpg.set_value(status_string, "...RUNNING")
+
 	playlist_url = dpg.get_value(spotify_url) 
 	engine = SpotifyEngine(playlist_url)
 	youtube_engine = YoutubeEngine()
@@ -29,12 +32,24 @@ def convert(sender, app_data):
 	directory = dpg.get_value(folder)
 	os.mkdir(directory)
 
+	dpg.set_value(status_string, "...GETTING SPOTIFY SONGS")
 	songs = engine.get_playlists()
+	dpg.set_value(status_string, "...SONGS ACQUIRED")
+
+	dpg.set_value(status_string, "...FINDING SONGS ON YOUTUBE")
+
 	youtube_links = youtube_engine.search_from_list(songs)
+
+
+	dpg.set_value(status_string, "...CONVERTING SONGS")
 	
 	for song in youtube_links:
 		youtube_engine.download_track(song['link'], song['artist'], song['track'], directory)
+		dpg.set_value(status_string, "...CONVERTED {} BY {}".format(song['track'],song['artist']))
 
+	dpg.set_value(status_string, "All Done!")
+	time.sleep(2)
+	dpg.set_value(status_string, "")
 	
 	
 	
@@ -48,6 +63,7 @@ with dpg.window(tag="Primary Window"):
 
 	desktop_path = os.path.expanduser("~/Desktop")
 	folder = dpg.add_input_text(label="Folder to save", default_value=desktop_path+"/MyPlaylist")
+	status_string = dpg.add_input_text(label="STATUS", default_value="")
 	dpg.add_button(label="CONVERT", callback = convert)
 	dpg.add_file_dialog(
 		directory_selector=True, show=False, callback=callback, tag="file_dialog_id",
@@ -56,7 +72,7 @@ with dpg.window(tag="Primary Window"):
 	dpg.add_button(label="Directory Selector", callback=lambda: dpg.show_item("file_dialog_id"))
 	dpg.add_button(label="Reset Directory", callback = reset)
 
-dpg.create_viewport(title="Lukey's Spotify Converter", width=1500, height=1000)
+dpg.create_viewport(title="Lukey's Spotify Converter", width=800, height=500)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("Primary Window", True)
