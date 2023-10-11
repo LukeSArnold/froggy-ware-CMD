@@ -1,71 +1,113 @@
 from pytube import YouTube 
 import os 
 from youtubesearchpython import VideosSearch
+from engine.conversions import minutes_to_ms
 
 class YoutubeEngine:
 	def __init__(self, log_bool = False):
 		self.logging = log_bool
-	
-	def search_from_list(self, songs, lyrics_correction = False):
+
+	def within_bounds(self,ms_1, ms_2, allowance):
+		""" this function checks to see whether two time stamps are within 10 seconds of eachother """
+
+		difference = abs(ms_1 - ms_2)
+		if difference < (allowance * 1000):
+			return True
+		else:
+			return False
+
+	def search_from_list(self, songs):
 		song_info = []
 		for song in songs:
 			#assuming list of songs is passed in from spotify_engine
 			artist = song['artist']
 			track = song['track']
+			track_length = song['duration_ms']
+
+
 			searchString = "{} {} ".format(track,artist)	
-			videosSearch = VideosSearch(searchString, limit = 2)
+			videosSearch = VideosSearch(searchString, limit = 3)
 			title = ((((videosSearch.result())['result'])[0])['title']).lower()
 
 			if self.logging:
-				print(title)
+				print("\n----------------------------------")
+				print(f"attempting to convert {title}")
+
+			duration = (videosSearch.result())['result'][0]['duration']
+			video_length = minutes_to_ms(duration)
 
 			#check to see if video is in title, trying to filter out music videos
-			if "video" not in title:
+			
+			if ("video" not in title) and (self.within_bounds(track_length, video_length, 3)):
+
+				if self.logging:
+					print(f"No issues with first link, converting {title}")
+
 				link = (((videosSearch.result())['result'])[0])['link']
 
 			else:
-				if lyrics_correction:
-					searchString = "{} {} {}".format(track,artist,"lyrics")
-					videosSearch = VideosSearch(searchString, limit = 1)
-					alternate_song = (((videosSearch.result())['result'])[0])['title'].lower()					
+				alternate_song = (((videosSearch.result())['result'])[1])['title'].lower()
+				alternate_length =  minutes_to_ms((((videosSearch.result())['result'])[1])['duration'])
 
+				# check to see if music video is within bounds
+				
+				if (self.within_bounds(track_length, video_length, 6)):
 					if self.logging:
-						print(f"{title} was a music video, because lyrics is enable, using {alternate_song} instead")
-
+						print(f"While this may be a music video, the runtime was the same. Converting {title}")
 					link = (((videosSearch.result())['result'])[0])['link']
-				else:
-					alternate_song = (((videosSearch.result())['result'])[1])['title'].lower()
 
-					if track.lower() in alternate_song:
+				elif (self.within_bounds(track_length, alternate_length, 1)):
+					if self.logging:
+						print(f"The second option was near indistinguishable in length, converting {alternate_song}")
+					link = (((videosSearch.result())['result'])[1])['link']
 
+
+				elif (track.lower() in alternate_song) and (self.within_bounds(track_length, alternate_length, 3)):
+
+					#check to see if the song name itself has video in the name
+					if "video" not in track.lower():
+						#music video filtered, take second youtube results
+												
+						if self.logging:
+							print(f"{title} was a music video, using {alternate_song} instead")
 					
-						#check to see if the song name itself has video in the name
-						if "video" not in track.lower():
-							#music video filtered, take second youtube results
-						
-							if self.logging:
-								print(f"{title} was a music video, using {alternate_song} instead")
-						
-							link = (((videosSearch.result())['result'])[1])['link']		
+						link = (((videosSearch.result())['result'])[1])['link']		
 
-						elif "music video" not in title:
-							#"video" included in song name, check to see if it is also a youtube video
-							link = (((videosSearch.result())['result'])[0])['link']
-
-						else:
-							#video is included in track name, and first result is a music video. Filter
-
-							if self.logging:
-								print(f"{title} was a music video, using {alternate_song} instead")
-							link = (((videosSearch.result())['result'])[1])['link']
+					elif "music video" not in title:
+						#"video" included in song name, check to see if it is also a youtube videoo
+						link = (((videosSearch.result())['result'])[0])['link']
 
 					else:
+						#video is included in track name, and first result is a music video. Filter
+
 						if self.logging:
-							print(f"The search {title} is possibly a music video, but the second result {alternate_song} wasn't the same song. Converting the first link and taking chances")
+							print(f"{title} was a music video, using {alternate_song} instead")
+						link = (((videosSearch.result())['result'])[1])['link']
 
-						link = (((videosSearch.result())['result'])[0])['link']
-						
+				else:
+					if self.logging:
+						print(f"We're having trouble converting, attempting lyrics search")
 
+					searchString = "{} {} {}".format(track,artist,"lyrics")
+					lyrics_search  = VideosSearch(searchString, limit = 3)
+
+					for i in range(3):
+						alternate_song = (((lyrics_search.result())['result'])[i])['title'].lower()
+						alternate_length =  minutes_to_ms((((lyrics_search.result())['result'])[i])['duration'])
+
+						if self.within_bounds(alternate_length, track_length, 2):
+							if self.logging:
+								print(f"Lyrics search was a match, converting {alternate_song}")
+
+							link = (((lyrics_search.result())['result'])[0])['link']
+							break
+						else:
+							if i == 2:
+								if self.logging:
+									print(f"All attempts to reconcile issue failed, taking chances and converting {title}")
+									link = (((videosSearch.result())['result'])[0])['link']
+							continue
+					
 			track = {'link':link, 'artist':artist, 'track':track}
 			song_info.append(track)
 			
@@ -77,13 +119,12 @@ class YoutubeEngine:
 		yt = YouTube(url,use_oauth=True,allow_oauth_cache=True)
 		video = yt.streams.filter(only_audio=True).first()
 
-		destination = "../exports"
-  
 		# download the file 
 		out_file = video.download(output_path=directory) 
 		base, ext = os.path.splitext(directory+"/"+out_file) 
 		new_file = "" + track + "_" + artist + '.mp3'
 		new_file = new_file.replace(" ","_")
+		new_file = new_file.replace("/","_")
 		os.rename(out_file, directory+"/"+new_file)  
 
 		if self.logging:

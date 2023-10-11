@@ -35,7 +35,7 @@ def convert(sender, app_data):
 
 		playlist_url = dpg.get_value(spotify_url) 
 		engine = SpotifyEngine(playlist_url)
-		youtube_engine = YoutubeEngine()
+		youtube_engine = YoutubeEngine(True)
 
 		directory = dpg.get_value(folder)
 
@@ -45,7 +45,7 @@ def convert(sender, app_data):
 
 		dpg.set_value(status_string, "...FINDING SONGS ON YOUTUBE")
 
-		youtube_links = youtube_engine.search_from_list(songs, True)
+		youtube_links = youtube_engine.search_from_list(songs)
 
 
 		dpg.set_value(status_string, "...CONVERTING SONGS")
@@ -65,7 +65,7 @@ def convert(sender, app_data):
 		time.sleep(2)
 		dpg.set_value(status_string, "")
 	except Exception as error:
-		print(error)
+		print(f"ERROR: {error}")
 		dpg.set_value(status_string, "Something went wrong, is your playlist public?")
 
 with dpg.window(tag="Primary Window"):
