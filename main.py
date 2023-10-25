@@ -70,7 +70,7 @@ def convert(sender, app_data):
 
 with dpg.window(tag="Primary Window"):
 	dpg.add_text("Luke's Spotify Converter")
-	spotify_url = dpg.add_input_text(label="Spotify Playlsit URL")
+	spotify_url = dpg.add_input_text(label="Spotify Playlist URL")
 	desktop_path = os.path.expanduser("~/Desktop")
 	folder = dpg.add_input_text(label="Folder to save", default_value=desktop_path+"/MyPlaylist")
 	status_string = dpg.add_input_text(label="STATUS", default_value="")
