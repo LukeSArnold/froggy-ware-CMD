@@ -5,7 +5,7 @@ from engine.conversions import ms_to_min
 
 class SpotifyEngine:
 	def __init__(self, playlist_url):
-		cid = "8cdb42bee2324b83b78f517d35e59f61"
+		#cid = input cid here, found in developer.spotify account
 		secret = "c762f709fba64df091734eca9f126059"
 		client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 		self.sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
