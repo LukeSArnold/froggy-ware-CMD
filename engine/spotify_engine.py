@@ -1,12 +1,12 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from engine.conversions import ms_to_min
-
+import configuration.password_info
 
 class SpotifyEngine:
 	def __init__(self, playlist_url):
-		#cid = input cid here, found in developer.spotify account
-		secret = "c762f709fba64df091734eca9f126059"
+		cid = configuration.password_info.get_cid()
+		secret = configuration.password_info.get_secret()
 		client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 		self.sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 		self.playlist = playlist_url
