@@ -25,15 +25,15 @@ Froggy Ware can be accessed through either a command line interface, or through 
 
 The GUI contains a few distinct fields,
 
-    1.   the "Spotify Playlist URL" input, simply copy and paste the URL for your Spotify playlist here. To get this URL Spotify must be accessed through browser, as desktop application spoitfy doesn't contain any URLs
+1.   the "Spotify Playlist URL" input, simply copy and paste the URL for your Spotify playlist here. To get this URL Spotify must be accessed through browser, as desktop application spoitfy doesn't contain any URLs
 
-    2.   the "Folder to save' input. Froggy Ware defaults to saving to Desktop under the general directory name "MyPlaylist". This path can be changed to specify different directories to save to. If a directory doesn't already exist, Froggy Ware will create the directory. This folder can also be chosen by clicking the "Directory Selector" button at the bottom of the page.
+2.   the "Folder to save' input. Froggy Ware defaults to saving to Desktop under the general directory name "MyPlaylist". This path can be changed to specify different directories to save to. If a directory doesn't already exist, Froggy Ware will create the directory. This folder can also be chosen by clicking the "Directory Selector" button at the bottom of the page.
 
-    3.   "Status" input. This exist to provide the status of the program while converting. Any text entered into this input will be ignored and wiped during execution.
+3.   "Status" input. This exist to provide the status of the program while converting. Any text entered into this input will be ignored and wiped during execution.
 
-    4.   "Convert" button. This button starts the converting process using information initially entered.
+4.   "Convert" button. This button starts the converting process using information initially entered.
 
-    5.   "Directory selector". This button opens up a file manager to navigate to different directories to save to following conversion. 
+5.   "Directory selector". This button opens up a file manager to navigate to different directories to save to following conversion. 
 
-    6.   "Reset directory". This button reverts to "Folder to save" input to the default of `"$path to desktop/MyPlaylist"`
+6.   "Reset directory". This button reverts to "Folder to save" input to the default of `"$path to desktop/MyPlaylist"`
 
