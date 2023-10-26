@@ -2,6 +2,7 @@ from pytube import YouTube
 import os 
 from youtubesearchpython import VideosSearch
 from engine.conversions import minutes_to_ms
+from engine.scrubber import m4a_to_mp3
 
 class YoutubeEngine:
 	def __init__(self, log_bool = False):
@@ -122,10 +123,16 @@ class YoutubeEngine:
 		# download the file 
 		out_file = video.download(output_path=directory) 
 		base, ext = os.path.splitext(directory+"/"+out_file) 
-		new_file = "" + track + "_" + artist + '.mp3'
+		new_file = "" + track + "_" + artist + '.m4a'
 		new_file = new_file.replace(" ","_")
 		new_file = new_file.replace("/","_")
 		os.rename(out_file, directory+"/"+new_file)  
 
+		total_file = f"{directory}/{new_file}"	
+
+		m4a_to_mp3(total_file)
+		
 		if self.logging:
-			print("...CONVERTED {}".format(new_file))
+                        print("...CONVERTED {}.mp3".format(new_file[:-4]))
+
+		os.remove(total_file)
