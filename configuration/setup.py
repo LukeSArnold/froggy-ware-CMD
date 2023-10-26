@@ -1,7 +1,7 @@
 import subprocess
 import sys
 
-packages = [ "dearpygui", "spotipy", "pytube", "youtube-search-python"]
+packages = [ "dearpygui", "spotipy", "pytube", "youtube-search-python", "eyed3"]
 
 
 
@@ -14,3 +14,5 @@ if __name__ == "__main__":
 			install(package)
 		except:
 			print("error installing {}".format(package))
+
+	subprocess.check_call([sys.executable, "brew install ffmpeg"])

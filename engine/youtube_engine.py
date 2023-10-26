@@ -2,7 +2,7 @@ from pytube import YouTube
 import os 
 from youtubesearchpython import VideosSearch
 from engine.conversions import minutes_to_ms
-from engine.scrubber import m4a_to_mp3
+import engine.scrubber as scrubber
 
 class YoutubeEngine:
 	def __init__(self, log_bool = False):
@@ -130,8 +130,12 @@ class YoutubeEngine:
 
 		total_file = f"{directory}/{new_file}"	
 
-		m4a_to_mp3(total_file)
-		
+		scrubber.m4a_to_mp3(total_file)
+
+		total_file_mp3 = f"{total_file[:-4]}.mp3"		
+
+		scrubber.add_metadata(total_file_mp3, artist, track)
+				
 		if self.logging:
                         print("...CONVERTED {}.mp3".format(new_file[:-4]))
 
