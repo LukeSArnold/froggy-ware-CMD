@@ -135,6 +135,8 @@ class YoutubeEngine:
 		total_file_mp3 = f"{total_file[:-4]}.mp3"		
 
 		scrubber.add_metadata(total_file_mp3, artist, track)
+
+		scrubber.fix_file(total_file_mp3, directory)
 				
 		if self.logging:
                         print("...CONVERTED {}.mp3".format(new_file[:-4]))
