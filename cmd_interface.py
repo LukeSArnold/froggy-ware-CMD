@@ -31,7 +31,7 @@ if __name__ == "__main__":
 	print("...YOUTUBE LINKS CONVERTED")
 	
 	for song in youtube_links:
-		youtube_engine.download_track(song['link'], song['artist'], song['track'], directory)
+		youtube_engine.download_track(song['link'], song['artist'], song['track'], directory, True)
 
 	print("YOUR SONGS ARE READY")
 	

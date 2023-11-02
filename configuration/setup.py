@@ -15,4 +15,4 @@ if __name__ == "__main__":
 		except:
 			print("error installing {}".format(package))
 
-	subprocess.check_call([sys.executable, "brew install ffmpeg"])
+	subprocess.run(["brew", "install", "ffmpeg"])

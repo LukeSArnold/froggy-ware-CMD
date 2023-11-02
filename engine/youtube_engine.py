@@ -116,16 +116,22 @@ class YoutubeEngine:
 
 			
 
-	def download_track(self, url, artist, track, directory):
+	def download_track(self, url, artist, track, directory, sam_configuration = False):
 		yt = YouTube(url,use_oauth=True,allow_oauth_cache=True)
 		video = yt.streams.filter(only_audio=True).first()
 
 		# download the file 
 		out_file = video.download(output_path=directory) 
 		base, ext = os.path.splitext(directory+"/"+out_file) 
-		new_file = "" + track + "_" + artist + '.m4a'
-		new_file = new_file.replace(" ","_")
-		new_file = new_file.replace("/","_")
+	
+		if sam_configuration:
+			new_file = f"{artist} - {track}.m4a"
+			new_file = new_file.replace("/","_")
+		else:
+			new_file = "" + track + "_" + artist + '.m4a'
+			new_file = new_file.replace(" ","_")
+			new_file = new_file.replace("/","_")
+		
 		os.rename(out_file, directory+"/"+new_file)  
 
 		total_file = f"{directory}/{new_file}"	

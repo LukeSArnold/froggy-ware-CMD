@@ -31,6 +31,8 @@ def reset(sender, app_data):
 def convert(sender, app_data):
 
 	try:	
+		using_sam = dpg.get_value(sam_status_checkbox)
+
 		dpg.set_value(status_string, "...RUNNING")
 
 		playlist_url = dpg.get_value(spotify_url) 
@@ -58,7 +60,7 @@ def convert(sender, app_data):
 			os.mkdir(directory)
 		
 		for song in youtube_links:
-			youtube_engine.download_track(song['link'], song['artist'], song['track'], directory)
+			youtube_engine.download_track(song['link'], song['artist'], song['track'], directory, using_sam)
 			dpg.set_value(status_string, "...CONVERTED {} BY {}".format(song['track'],song['artist']))
 
 		dpg.set_value(status_string, "All Done!")
@@ -74,6 +76,10 @@ with dpg.window(tag="Primary Window"):
 	desktop_path = os.path.expanduser("~/Desktop")
 	folder = dpg.add_input_text(label="Folder to save", default_value=desktop_path+"/MyPlaylist")
 	status_string = dpg.add_input_text(label="STATUS", default_value="")
+
+	sam_status_checkbox = dpg.add_checkbox(label="Use SAM file format", tag="R1")
+
+
 	dpg.add_button(label="CONVERT", callback = convert)
 	dpg.add_file_dialog(
 		directory_selector=True, show=False, callback=callback, tag="file_dialog_id",
