@@ -109,14 +109,17 @@ class YoutubeEngine:
 									link = (((videosSearch.result())['result'])[0])['link']
 							continue
 					
-			track = {'link':link, 'artist':artist, 'track':track}
+			track = {'link':link}
+			for key in song:
+				track[key] = song[key]
+
 			song_info.append(track)
 			
 		return song_info
 
 			
 
-	def download_track(self, url, artist, track, directory, sam_configuration = False):
+	def download_track(self, url, artist, track, directory, sam_configuration = False, total_data = None):
 		yt = YouTube(url,use_oauth=True,allow_oauth_cache=True)
 		video = yt.streams.filter(only_audio=True).first()
 
@@ -140,7 +143,11 @@ class YoutubeEngine:
 
 		total_file_mp3 = f"{total_file[:-4]}.mp3"		
 
-		scrubber.add_metadata(total_file_mp3, artist, track)
+		if total_data is None:
+			scrubber.add_metadata(total_file_mp3, artist, track)
+		else:
+			scrubber.add_metadata(total_file_mp3, artist, track, total_data['album'], total_data['track_number'], total_data['release_date'])
+
 
 		scrubber.fix_file(total_file_mp3, directory)
 				
