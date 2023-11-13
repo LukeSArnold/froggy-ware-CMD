@@ -11,7 +11,7 @@ class SpotifyEngine:
 		self.sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 		self.playlist = playlist_url
 	
-	def get_playlists(self):
+	def get_playlists(self, verbose = False):
 		playlist_link = self.playlist
 		playlist_URI = playlist_link.split("/")[-1].split("?")[0]
 		track_uris = [x["track"]["uri"] for x in self.sp.playlist_tracks(playlist_URI)["items"]]
@@ -21,8 +21,6 @@ class SpotifyEngine:
 		for track in self.sp.playlist_tracks(playlist_URI)["items"]:
 
 			songInfo = {}
-			#URI
-			track_uri = track["track"]["uri"]
     
 			#Track name
 			track_name = track["track"]["name"]
@@ -38,31 +36,26 @@ class SpotifyEngine:
 
 			#length formatted
 			formatted_duration = ms_to_min(int(ms_duration))
-
-			songInfo['uri'] = track_uri
+	
 			songInfo['track'] = track_name
 			songInfo['artist'] = artist_name
 			songInfo['album'] = album
 			songInfo['duration_ms'] = ms_duration
 			songInfo['duration_formatted'] = formatted_duration
 
+			if verbose:
+				album_href = track['track']['album']['images'][0]['url']
+				release_date = track['track']['album']['release_date']
+				track_number = track['track']['track_number']
+			
+				songInfo['album_art'] = album_href
+				songInfo['release_date'] = release_date
+				songInfo['track_number'] = track_number
+
 			songs.append(songInfo)
-		
+	
 		return songs
-
-	def get_playlists_verbose(self):
-		playlist_link = self.playlist
-		playlist_URI = playlist_link.split("/")[-1].split("?")[0]
-		track_uris = [x["track"]["uri"] for x in self.sp.playlist_tracks(playlist_URI)["items"]]
-
-		songs = []
-		for track in self.sp.playlist_tracks(playlist_URI)["items"]:
-
-			songs.append(track)
-
-		return songs
-
-
+	
 	def set_playlist(self, url):
 		self.playlist = url
 	
