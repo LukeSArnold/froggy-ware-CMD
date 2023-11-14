@@ -26,7 +26,7 @@ def add_metadata(file_name, artist, title, album = None, track_number = None, re
 
 	mp3_file.tag.save()
 
-def add_cover_arts(file_name, album_url)
+def add_cover_arts(file_name, album_url):
 	mp3_file = eyed3.load(file_name)
 
 	mp3_file.tag.images.set(type_=3, img_data=None, mime_type=None, description=u"", img_url=(album_url))

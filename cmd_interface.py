@@ -17,9 +17,11 @@ if __name__ == "__main__":
 	album_art = False
 	verbose_data = False
 	logging = False
+	is_album = False
 	sam_config = False
 
-	if "-a" in arguments:
+
+	if "-c" in arguments:
 		album_art = True
 
 	if "-v" in arguments:
@@ -28,16 +30,19 @@ if __name__ == "__main__":
 	if "-l" in arguments:
 		logging = True
 
+	if "-a" in arguments:
+		is_album = True
+
 	if "--sam" in arguments:
 		sam_config = True
 	
-	playlist_url = input("INPUT URL\n:")
+	content_url = input("INPUT URL\n:")
 	playlist_name = input("INPUT PLAYLIST NAME\n:")
         
 	desktop_path = os.path.expanduser("~/Desktop")
 	directory = ""+desktop_path+"/"+playlist_name
 
-	engine = FroggyEngine(playlist_url, directory, verbose_data, album_art, logging, sam_config)
+	engine = FroggyEngine(content_url, directory, verbose_data, album_art, logging, is_album, sam_config)
 
 	engine.convert()
 

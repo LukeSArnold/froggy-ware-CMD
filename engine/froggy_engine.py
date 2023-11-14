@@ -6,7 +6,7 @@ import os
 import sys
 
 class FroggyEngine:
-	def __init__(self, url, directory, verbose_metadata = False, album_art = False, logging = False, SAM_configuration = False):
+	def __init__(self, url, directory, verbose_metadata = False, album_art = False, logging = False, is_album = False, SAM_configuration = False):
 		
 		url = url
 		self.directory = directory
@@ -16,6 +16,7 @@ class FroggyEngine:
 		self.logging = logging
 		self.verbose_metadata = verbose_metadata
 		self.SAM_configuration = SAM_configuration
+		self.is_album = is_album
 
 
 	def convert(self):
@@ -23,7 +24,10 @@ class FroggyEngine:
 
 		os.mkdir(self.directory)
 
-		songs = self.spotify_engine.get_playlists(self.verbose_metadata)
+		if self.is_album:
+			songs = self.spotify_engine.get_album(self.verbose_metadata)
+		else:
+			songs = self.spotify_engine.get_playlists(self.verbose_metadata)
 		
 		if self.logging:
 			print("...SPOTIFY INFO SECURED")
