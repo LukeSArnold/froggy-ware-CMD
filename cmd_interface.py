@@ -37,7 +37,7 @@ try:
 			is_album = True
 
 		if "--sam" in arguments:
-			sam_config = Truei
+			sam_config = True
 
 		if "--no-persist" in arguments:
                         no_persist = True

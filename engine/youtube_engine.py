@@ -147,6 +147,7 @@ class YoutubeEngine:
 			scrubber.add_metadata(total_file_mp3, artist, track)
 		else:
 			scrubber.add_metadata(total_file_mp3, artist, track, total_data['album'], total_data['track_number'], total_data['release_date'])
+			scrubber.add_cover_art(total_file_mp3, total_data['album_art'])
 
 
 		scrubber.fix_file(total_file_mp3, directory)
