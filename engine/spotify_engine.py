@@ -61,9 +61,12 @@ class SpotifyEngine:
 		content_URI = content_link.split("/")[-1].split("?")[0]
 		songs = []
 
-		for track in self.sp.album_tracks(content_URI)["items"]:
+		album_info = self.sp.album(content_URI, "US")
+		
+		album_name = album_info['name']
+		
 
-			print(f"---------------------------------\n\n{track}\n\n-----------------------------------")
+		for track in self.sp.album_tracks(content_URI)["items"]:
 
 			songInfo = {}
 
@@ -73,9 +76,6 @@ class SpotifyEngine:
 			#Name, popularity, genre
 			artist_name = track["artists"][0]["name"]
 
-			#Album
-			#album = track["album"]["name"]
-
 			#length millisecond
 			ms_duration = track['duration_ms']
 
@@ -84,17 +84,18 @@ class SpotifyEngine:
 
 			songInfo['track'] = track_name
 			songInfo['artist'] = artist_name
-			#songInfo['album'] = album
+			songInfo['album'] = album_name
 			songInfo['duration_ms'] = ms_duration
 			songInfo['duration_formatted'] = formatted_duration
 
-			#if verbose:
-			#	album_href = track['album']['images'][0]['url']
-			#	release_date = track['album']['release_date']
-			#	track_number = track['track_number']
-			#	songInfo['album_art'] = album_href
-			#	songInfo['release_date'] = release_date
-			#	songInfo['track_number'] = track_number
+			if verbose:
+				album_href = album_info['images'][0]['url']
+				release_date = album_info['release_date']
+				track_number = track['track_number']
+
+				songInfo['album_art'] = album_href
+				songInfo['release_date'] = release_date
+				songInfo['track_number'] = track_number
 
 			songs.append(songInfo)
 		
