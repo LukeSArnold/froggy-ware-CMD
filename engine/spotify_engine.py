@@ -55,6 +55,52 @@ class SpotifyEngine:
 			songs.append(songInfo)
 	
 		return songs
+
+	def get_album(self, verbose = False):
+		content_link = self.playlist
+		content_URI = content_link.split("/")[-1].split("?")[0]
+		songs = []
+
+		album_info = self.sp.album(content_URI, "US")
+		
+		album_name = album_info['name']
+		
+
+		for track in self.sp.album_tracks(content_URI)["items"]:
+
+			songInfo = {}
+
+			#Track name
+			track_name = track["name"]
+
+			#Name, popularity, genre
+			artist_name = track["artists"][0]["name"]
+
+			#length millisecond
+			ms_duration = track['duration_ms']
+
+			#length formatted
+			formatted_duration = ms_to_min(int(ms_duration))
+
+			songInfo['track'] = track_name
+			songInfo['artist'] = artist_name
+			songInfo['album'] = album_name
+			songInfo['duration_ms'] = ms_duration
+			songInfo['duration_formatted'] = formatted_duration
+
+			if verbose:
+				album_href = album_info['images'][0]['url']
+				release_date = album_info['release_date']
+				track_number = track['track_number']
+
+				songInfo['album_art'] = album_href
+				songInfo['release_date'] = release_date
+				songInfo['track_number'] = track_number
+
+			songs.append(songInfo)
+		
+		return songs
+
 	
 	def set_playlist(self, url):
 		self.playlist = url
