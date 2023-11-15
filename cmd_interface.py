@@ -24,9 +24,6 @@ try:
 		no_persist = False
 
 
-		if "-c" in arguments:
-			album_art = True
-
 		if "-v" in arguments:
 			verbose_data = True
 
