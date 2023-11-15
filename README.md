@@ -22,10 +22,19 @@ Google authentication will only be required once, and will continue to run on th
 Froggy Ware can be accessed through either a command line interface, or through the built in graphical user interface. Simply run `cmd_interface.py` for the CMD line, or `main.py` for the GUI. 
 The CMD line can take in a series of configuration values which will all correspond to specific functionality for either use or testing. 
 
+
 the `-l` tag will enable logging, providing continual updates to the programs execution
+
+
 the `-v` tag will enable verbose metadata configuration, implenting release date information, album track listing, but most notably, it adds **album artwork** to the mp3 files
+
+
 the `-a` tag will allow Froggy Ware to convert albums from spotify, if this tag is not included an error will be thrown when converting an album. 
+
+
 the `--sam` tag will format final mp3s with an `artist - track.mp3` format, which differs from the standard `track_artist.mp3` convention
+
+
 the `--no-persist` tag will fetch the information from spotify, but will not convert the mp3s. 
 
 ### GUI
