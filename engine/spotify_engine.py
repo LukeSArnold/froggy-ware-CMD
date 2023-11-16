@@ -64,7 +64,6 @@ class SpotifyEngine:
 		album_info = self.sp.album(content_URI, "US")
 		
 		album_name = album_info['name']
-		
 
 		for track in self.sp.album_tracks(content_URI)["items"]:
 
