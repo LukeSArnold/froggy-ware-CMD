@@ -1,9 +1,26 @@
 def minutes_to_ms(time_input):
-	break_point = time_input.index(":")
-	mins = int( time_input[0:break_point])
-	seconds =  int(time_input[(break_point+1):])
 
-	ms_time = (mins * 60000) + (seconds * 1000)
+	print(f"TIME INPUT IS {time_input}")
+	break_point = time_input.index(":")
+
+	mins = time_input[0:break_point]
+
+	seconds =  time_input[(break_point+1):]
+	
+	if ":" in seconds:
+		# if the song length pulled is in the hour limit (which is unlikely), seconds will 
+		# contain a seconds ":" in the formatting. This must be broken up further 		
+
+		hours = int(mins)
+		new_break_point = seconds.index(":")
+		
+		mins = int(seconds[0:new_break_point])
+
+		seconds = int(seconds[(new_break_point+1):])
+		
+		ms_time = (hours * 3600000) + (mins * 60000) + (seconds * 1000)
+	else:
+		ms_time = (int(mins) * 60000) + (int(seconds) * 1000)
 
 	return ms_time
 
