@@ -4,7 +4,7 @@ Froggy Ware is a spotify to mp3 converter. As it stands now, Froggy Ware is only
 
 ## DEPENDENCIES
 
-Froggy Ware handles most install and setup of necessary python libraries and the FFMPEG tool. These can be simply setup in the built in `setup.py` file, **see "SETUP"**. Though, the setup.py file is setup for mac users and requires that *Homebrew* must be installed on your computer to install the necessary depencies. For MacOS, simply run the command `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` to install Homebrew. If using Linux or Windows FFmpeg must be independently installed on your machine. 
+Froggy Ware handles most install and setup of necessary python libraries and the FFMPEG tool. These can be simply setup in the built in `setup.py` file, **see "SETUP"**. Though, the setup.py file is setup for mac users and requires that *Homebrew* must be installed on your computer to install the necessary depencies. For MacOS, simply run the command `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` to install Homebrew. If using Linux or Windows, FFmpeg must be independently installed on your machine. 
 
 ## SETUP
 
