@@ -19,7 +19,7 @@ Google authentication will only be required once, and will continue to run on th
 `
 ## USE
 
-Froggy Ware can be accessed through either a command line interface, or through the built in graphical user interface. Simply run `cmd_interface.py` for the CMD line, or `main.py` for the GUI. 
+Froggy Ware can be accessed through either a command line interface. Simply run `cmd_interface.py`. 
 The CMD line can take in a series of configuration values which will all correspond to specific functionality for either use or testing. 
 
 
