@@ -31,6 +31,10 @@ the `-v` tag will enable verbose metadata configuration, implenting release date
 
 the `-a` tag will allow Froggy Ware to convert albums from spotify, if this tag is not included an error will be thrown when converting an album. 
 
+## POTENTIAL ISSUES
+
+The Froggy engine functions by fetching metadata from spotify, then cross referencing the song information with songs on youtube. Therefore, if a song only exists on spotify, and there isn't a corresponding youtube video, the converted file will contain the wrong song but will feature the spotify name. Use the `-l` tag to see when the engine is struggling to find a song.  
+
 
 the `--sam` tag will format final mp3s with an `artist - track.mp3` format, which differs from the standard `track_artist.mp3` convention
 
