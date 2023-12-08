@@ -1,6 +1,6 @@
 # froggy_ware
 
-Froggy Ware is a spotify to mp3 converter. As it stands now, Froggy Ware is only capable of converting public spotify playlists to mp3. The current version of Froggy Ware is only for MacOS, though future releases plan to cover Windows and Linux based machines. 
+Froggy Ware is a spotify to mp3 converter. As it stands now, Froggy Ware is only capable of converting public spotify playlists to mp3. Froggy Ware currently requires certain external softwares (see *SETUP*) though future releases will bundle all processes into a single executable. 
 
 ## DEPENDENCIES
 
