@@ -1,6 +1,5 @@
 def minutes_to_ms(time_input):
 
-	print(f"TIME INPUT IS {time_input}")
 	break_point = time_input.index(":")
 
 	mins = time_input[0:break_point]
