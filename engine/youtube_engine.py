@@ -8,8 +8,8 @@ class YoutubeEngine:
 	def __init__(self, log_bool = False):
 		self.logging = log_bool
 
-	def within_bounds(self,ms_1, ms_2, allowance):
-		""" this function checks to see whether two time stamps are within 10 seconds of eachother """
+	def within_bounds(self, ms_1, ms_2, allowance):
+		""" this class checks to see whether two time stamps are within 10 seconds of eachother """
 
 		difference = abs(ms_1 - ms_2)
 		if difference < (allowance * 1000):
@@ -18,16 +18,23 @@ class YoutubeEngine:
 			return False
 
 	def search_from_list(self, songs):
+		"""This method takes in a list of dictionaries, where each dictionary consists of song info"""
 		song_info = []
 		for song in songs:
 			#assuming list of songs is passed in from spotify_engine
+
+			# break down each song into its main components for querying
 			artist = song['artist']
 			track = song['track']
 			track_length = song['duration_ms']
 
+			# initialize the string were going to search with, formatting at "track name" "artist name"
+			searchString = "{} {} ".format(track,artist)
 
-			searchString = "{} {} ".format(track,artist)	
+			# get all videos from spotify
 			videosSearch = VideosSearch(searchString, limit = 3)
+
+			# first video name and info
 			title = ((((videosSearch.result())['result'])[0])['title']).lower()
 
 			if self.logging:
@@ -38,7 +45,6 @@ class YoutubeEngine:
 			video_length = minutes_to_ms(duration)
 
 			#check to see if video is in title, trying to filter out music videos
-			
 			if ("video" not in title) and (self.within_bounds(track_length, video_length, 3)):
 
 				if self.logging:
@@ -153,6 +159,6 @@ class YoutubeEngine:
 		scrubber.fix_file(total_file_mp3, directory)
 				
 		if self.logging:
-                        print("...CONVERTED {}.mp3".format(new_file[:-4]))
+            print("...CONVERTED {}.mp3".format(new_file[:-4]))
 
 		os.remove(total_file)
